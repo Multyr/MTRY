@@ -1,0 +1,20 @@
+# Compiler output
+cache/
+out/
+
+# Deployment broadcast logs
+broadcast/
+
+# Coverage output
+lcov.info
+coverage/
+
+# Static-analysis output
+report.md
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store

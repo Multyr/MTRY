@@ -1,0 +1,40 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Foundry project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+
+      - name: Show Forge version
+        run: forge --version
+
+      # Non-blocking: the repo has never been formatted (51 files diverge).
+      # Kept visible as a warning; do not run `forge fmt` on source before the freeze —
+      # audit evidence (lcov, Halmos, Slither, Aderyn) is pinned to the current code SHA.
+      - name: Run Forge fmt
+        run: forge fmt --check
+        continue-on-error: true
+
+      - name: Run Forge build
+        run: forge build --sizes
+
+      - name: Run Forge tests
+        run: forge test -vvv
