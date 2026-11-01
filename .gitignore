@@ -18,3 +18,5 @@ report.md
 
 # OS
 .DS_Store
+!.env.example
+!.env.shadow.example
